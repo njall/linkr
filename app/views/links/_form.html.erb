@@ -11,25 +11,17 @@
     </div>
   <% end %>
 
-  <div class="field">
-    <%= form.label :slug %>
-    <%= form.text_field :slug %>
-  </div>
+
+    <div class="field">
+      <%= form.label 'URL to link to' %>
+      <%= form.text_field :url, placeholder: 'e.g., http://my-very-long-url.com'  %>
+    </div>
 
   <div class="field">
-    <%= form.label :url %>
-    <%= form.text_field :url %>
+    <%= form.label 'New short link' %>
+    <%= form.text_field :slug, placeholder: 'e.g, /shrt-link' %>
   </div>
 
-  <div class="field">
-    <%= form.label :counter %>
-    <%= form.number_field :counter %>
-  </div>
-
-  <div class="field">
-    <%= form.label :user_id %>
-    <%= form.text_field :user_id %>
-  </div>
 
   <div class="actions">
     <%= form.submit %>

@@ -1,24 +1,8 @@
 <p id="notice"><%= notice %></p>
 
-<p>
-  <strong>Slug:</strong>
-  <%= @link.slug %>
-</p>
+<div class="row">
+  <div class="col-lg-12" style="text-align: center"><b><%= @link.slug %></b> -- redirects to --> <b><%= @link.url %></b></div>
+</div>
 
-<p>
-  <strong>Url:</strong>
-  <%= @link.url %>
-</p>
 
-<p>
-  <strong>Counter:</strong>
-  <%= @link.counter %>
-</p>
-
-<p>
-  <strong>User:</strong>
-  <%= @link.user_id %>
-</p>
-
-<%= link_to 'Edit', edit_link_path(@link) %> |
 <%= link_to 'Back', links_path %>
