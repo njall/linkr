@@ -15,6 +15,7 @@
 RSpec.describe "/links", type: :request do
   # Link. As you add validations to Link, be sure to
   # adjust the attributes here as well.
+
   let(:valid_attributes) {
     skip("Add a hash of attributes valid for your model")
   }
@@ -23,126 +24,136 @@ RSpec.describe "/links", type: :request do
     skip("Add a hash of attributes invalid for your model")
   }
 
-  describe "GET /abcde" do
-    it "redirects user to URL" do
-      user = User.create!(email: "bob@example.com", password: "password")
-      user.links.create!(slug: 'abcde', url: "http://google.com")
-      get '/abcde'
-      expect(response).to redirect_to "http://google.com"
-    end
+  before do
+    @user = User.create!(email: "bob@example.com", password: "123456")
   end
 
 
-  describe "GET /not-a-valid-link" do
-    it "renders missing link page" do
-      user = User.create!(email: "bob@example.com", password: "password")
-      user.links.create!(slug: 'valid-link', url: "http://google.com")
-      get '/not-a-valid-link'
-      expect(response.status).to  eq 404
-    end
-  end
+  context 'logged in' do
 
-  describe "GET /index" do
-    it "renders a successful response" do
-      Link.create! valid_attributes
-      get links_url
-      expect(response).to be_successful
+    before do
+      sign_in(@user)
     end
-  end
 
-  describe "GET /show" do
-    it "renders a successful response" do
-      link = Link.create! valid_attributes
-      get link_url(link)
-      expect(response).to be_successful
+    describe "GET /abcde" do
+      it "redirects user to URL" do
+        @user.links.create!(slug: 'abcde', url: "http://google.com")
+        get '/abcde'
+        expect(response).to redirect_to "http://google.com"
+      end
     end
-  end
 
-  describe "GET /new" do
-    it "renders a successful response" do
-      get new_link_url
-      expect(response).to be_successful
+
+    describe "GET /not-a-valid-link" do
+      it "renders missing link page" do
+        @user.links.create!(slug: 'valid-link', url: "http://google.com")
+        get '/not-a-valid-link'
+        expect(response.status).to  eq 404
+      end
     end
-  end
 
-  describe "GET /edit" do
-    it "render a successful response" do
-      link = Link.create! valid_attributes
-      get edit_link_url(link)
-      expect(response).to be_successful
+    describe "GET /index" do
+      it "renders a successful response" do
+        Link.create! valid_attributes
+        get links_url
+        expect(response).to be_successful
+      end
     end
-  end
 
-  describe "POST /create" do
-    context "with valid parameters" do
-      it "creates a new Link" do
-        expect {
+    describe "GET /show" do
+      it "renders a successful response" do
+        link = Link.create! valid_attributes
+        get link_url(link)
+        expect(response).to be_successful
+      end
+    end
+
+    describe "GET /new" do
+      it "renders a successful response" do
+        get new_link_url
+        expect(response).to be_successful
+      end
+    end
+
+    describe "GET /edit" do
+      it "render a successful response" do
+        link = Link.create! valid_attributes
+        get edit_link_url(link)
+        expect(response).to be_successful
+      end
+    end
+
+    describe "POST /create" do
+      context "with valid parameters" do
+        it "creates a new Link" do
+          expect {
+            post links_url, params: { link: valid_attributes }
+          }.to change(Link, :count).by(1)
+        end
+
+        it "redirects to the created link" do
           post links_url, params: { link: valid_attributes }
-        }.to change(Link, :count).by(1)
+          expect(response).to redirect_to(link_url(Link.last))
+        end
       end
 
-      it "redirects to the created link" do
-        post links_url, params: { link: valid_attributes }
-        expect(response).to redirect_to(link_url(Link.last))
-      end
-    end
+      context "with invalid parameters" do
+        it "does not create a new Link" do
+          expect {
+            post links_url, params: { link: invalid_attributes }
+          }.to change(Link, :count).by(0)
+        end
 
-    context "with invalid parameters" do
-      it "does not create a new Link" do
-        expect {
+        it "renders a successful response (i.e. to display the 'new' template)" do
           post links_url, params: { link: invalid_attributes }
-        }.to change(Link, :count).by(0)
-      end
-
-      it "renders a successful response (i.e. to display the 'new' template)" do
-        post links_url, params: { link: invalid_attributes }
-        expect(response).to be_successful
-      end
-    end
-  end
-
-  describe "PATCH /update" do
-    context "with valid parameters" do
-      let(:new_attributes) {
-        skip("Add a hash of attributes valid for your model")
-      }
-
-      it "updates the requested link" do
-        link = Link.create! valid_attributes
-        patch link_url(link), params: { link: new_attributes }
-        link.reload
-        skip("Add assertions for updated state")
-      end
-
-      it "redirects to the link" do
-        link = Link.create! valid_attributes
-        patch link_url(link), params: { link: new_attributes }
-        link.reload
-        expect(response).to redirect_to(link_url(link))
+          expect(response).to be_successful
+        end
       end
     end
 
-    context "with invalid parameters" do
-      it "renders a successful response (i.e. to display the 'edit' template)" do
-        link = Link.create! valid_attributes
-        patch link_url(link), params: { link: invalid_attributes }
-        expect(response).to be_successful
+    describe "PATCH /update" do
+      context "with valid parameters" do
+        let(:new_attributes) {
+          skip("Add a hash of attributes valid for your model")
+        }
+
+        it "updates the requested link" do
+          link = Link.create! valid_attributes
+          patch link_url(link), params: { link: new_attributes }
+          link.reload
+          skip("Add assertions for updated state")
+        end
+
+        it "redirects to the link" do
+          link = Link.create! valid_attributes
+          patch link_url(link), params: { link: new_attributes }
+          link.reload
+          expect(response).to redirect_to(link_url(link))
+        end
+      end
+
+      context "with invalid parameters" do
+        it "renders a successful response (i.e. to display the 'edit' template)" do
+          link = Link.create! valid_attributes
+          patch link_url(link), params: { link: invalid_attributes }
+          expect(response).to be_successful
+        end
       end
     end
-  end
 
-  describe "DELETE /destroy" do
-    it "destroys the requested link" do
-      link = Link.create! valid_attributes
-      expect {
+    describe "DELETE /destroy" do
+      it "destroys the requested link" do
+        link = Link.create! valid_attributes
+        expect {
+          delete link_url(link)
+        }.to change(Link, :count).by(-1)
+      end
+
+      it "redirects to the links list" do
+        link = Link.create! valid_attributes
         delete link_url(link)
-      }.to change(Link, :count).by(-1)
-    end
-
-    it "redirects to the links list" do
-      link = Link.create! valid_attributes
-      delete link_url(link)
-      expect(response).to redirect_to(links_url)
+        expect(response).to redirect_to(links_url)
+      end
     end
   end
 end
