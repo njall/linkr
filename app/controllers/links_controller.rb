@@ -70,7 +70,7 @@ class LinksController < ApplicationController
     redirect_to @redirect.url
 
   rescue ActiveRecord::RecordNotFound
-    render 'links/missing'
+    render 'links/missing', status: 404
   end
 
 

@@ -32,6 +32,16 @@ RSpec.describe "/links", type: :request do
     end
   end
 
+
+  describe "GET /not-a-valid-link" do
+    it "renders missing link page" do
+      user = User.create!(email: "bob@example.com", password: "password")
+      user.links.create!(slug: 'valid-link', url: "http://google.com")
+      get '/not-a-valid-link'
+      expect(response.status).to  eq 404
+    end
+  end
+
   describe "GET /index" do
     it "renders a successful response" do
       Link.create! valid_attributes
