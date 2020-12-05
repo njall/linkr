@@ -61,9 +61,18 @@ class LinksController < ApplicationController
     end
   end
 
+  # GET /any_slug_here
   def redirect
-    render plain: :ok
+    @redirect = Link.find_by!(slug: params[:slug])
+
+    @redirect.increment_count!
+
+    redirect_to @redirect.url
+
+  rescue ActiveRecord::RecordNotFound
+    render 'links/missing'
   end
+
 
   private
     # Use callbacks to share common setup or constraints between actions.
