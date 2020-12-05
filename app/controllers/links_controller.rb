@@ -1,11 +1,11 @@
 class LinksController < ApplicationController
   before_action :authenticate_user!, except: %w[ redirect ]
-
+  
   before_action :set_link, only: [:show, :edit, :update, :destroy]
   # GET /links
   # GET /links.json
   def index
-    @links = Link.all
+    @links = current_user.links
   end
 
   # GET /links/1
@@ -83,6 +83,6 @@ class LinksController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def link_params
-      params.require(:link).permit(:slug, :url, :counter, :user_id)
+      params.require(:link).permit(:slug, :url)
     end
 end
