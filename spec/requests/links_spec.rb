@@ -23,6 +23,15 @@ RSpec.describe "/links", type: :request do
     skip("Add a hash of attributes invalid for your model")
   }
 
+  describe "GET /abcde" do
+    it "redirects user to URL" do
+      user = User.create!(email: "bob@example.com", password: "password")
+      user.links.create!(slug: 'abcde', url: "http://google.com")
+      get '/abcde'
+      expect(response).to redirect_to "http://google.com"
+    end
+  end
+
   describe "GET /index" do
     it "renders a successful response" do
       Link.create! valid_attributes
