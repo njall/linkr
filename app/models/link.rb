@@ -21,7 +21,7 @@ class Link < ApplicationRecord
   end
 
   def slug_matches_pattern
-    errors.add(:slug, "must only contain numbers and letters") unless slug =~ /^[\w]+$/
+    errors.add(:slug, "must only contain numbers, letters, hyphens and/or underscores") unless slug =~ /^[\w|\-|\_]+$/
   end
 
 

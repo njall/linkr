@@ -47,7 +47,7 @@ RSpec.describe Link, type: :model do
 
   context 'hyphens and underscores are okay for slugs' do
     it 'should give errors' do
-      expect { @user.links.create!(slug: 'slug-with-hyphen_and_underscore', url: 'http://twoogle.com') }.to raise_error(ActiveRecord::RecordInvalid)
+      expect { @user.links.create!(slug: 'slug-with-hyphen_and_underscore', url: 'http://twoogle.com') }.to change{ Link.count }.by(1)
     end
   end
 
