@@ -61,6 +61,10 @@ class LinksController < ApplicationController
     end
   end
 
+  def redirect
+    render plain: :ok
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_link

@@ -37,7 +37,7 @@ RSpec.describe LinksController, type: :routing do
 
     context 'redirect routes' do
       it 'routes any slug to links#redirect' do
-        expect(get: "/abcd").to route_to("links#redirect")
+        expect(get: "/abcd").to route_to("links#redirect", slug: "abcd")
       end
     end
   end
