@@ -1,24 +1,29 @@
 # README
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+Linkr is a Rails 6 application allowing users to create custom, shortened links.  
 
-Things you may want to cover:
+## Installation
 
-* Ruby version
+Make sure you have the version of Ruby in .ruby-version available.
 
-* System dependencies
+Get the code: `git clone https://github.com/njall/linkr.git`
 
-* Configuration
+Install everything using `bundle install` 
 
-* Database creation
+Setup the database `rake db:setup`
 
-* Database initialization
+And away you go at `localhost:3000`
 
-* How to run the test suite
+## Testing
 
-* Services (job queues, cache servers, search engines, etc.)
+Comprehensive tests using rspec. Run with `$ rspec`
 
-* Deployment instructions
 
-* ...
+
+## Contributions
+
+Are welcome. Please make pull requests or issues. 
+
+## Licence
+
+CC-BY-0
