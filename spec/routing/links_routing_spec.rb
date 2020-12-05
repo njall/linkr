@@ -34,5 +34,11 @@ RSpec.describe LinksController, type: :routing do
     it "routes to #destroy" do
       expect(delete: "/links/1").to route_to("links#destroy", id: "1")
     end
+
+    context 'redirect routes' do
+      it 'routes any slug to links#redirect' do
+        expect(get: "/abcd").to route_to("links#redirect")
+      end
+    end
   end
 end
